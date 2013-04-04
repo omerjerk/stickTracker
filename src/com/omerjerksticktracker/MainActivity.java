@@ -21,8 +21,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.omerjerksticktracker.About;
+
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -42,6 +46,19 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         setUpMap();
     }
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.settings_about:
+	            DialogFragment aboutDialog = new About();
+	            aboutDialog.show(getSupportFragmentManager(), "missiles");
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly

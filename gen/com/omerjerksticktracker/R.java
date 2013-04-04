@@ -134,10 +134,10 @@ containing a value of this type.
     public static final class id {
         public static final int hybrid=0x7f040004;
         public static final int map=0x7f040005;
-        public static final int menu_settings=0x7f040006;
         public static final int none=0x7f040000;
         public static final int normal=0x7f040001;
         public static final int satellite=0x7f040002;
+        public static final int settings_about=0x7f040006;
         public static final int terrain=0x7f040003;
     }
     public static final class layout {
