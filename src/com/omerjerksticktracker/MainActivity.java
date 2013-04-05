@@ -16,17 +16,18 @@
 
 package com.omerjerksticktracker;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.omerjerksticktracker.About;
-
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -55,9 +56,18 @@ public class MainActivity extends FragmentActivity {
 	            DialogFragment aboutDialog = new About();
 	            aboutDialog.show(getSupportFragmentManager(), "missiles");
 	            return true;
+	        case R.id.settings_track:
+	        	track();
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
 	}
 
     /**
@@ -81,6 +91,19 @@ public class MainActivity extends FragmentActivity {
     private void setUpMap() {
     	mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                 .getMap();
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        
+    }
+    
+    private void track(){
+    	final LatLng test = new LatLng (10.21, 10);
+    	mMap.addMarker(new MarkerOptions().position(test)
+    			.title("Stick")
+    			.snippet("Stick is being developed in Casray :)"));
+    	CameraPosition cameraPosition = new CameraPosition.Builder()
+        .target(test)      // Sets the center of the map to Mountain View
+        .zoom(15)                   // Sets the zoom
+        .build();                   // Creates a CameraPosition from the builder
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        
     }
 }

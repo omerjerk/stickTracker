@@ -19,6 +19,7 @@ int id none 0x7f040000
 int id normal 0x7f040001
 int id satellite 0x7f040002
 int id settings_about 0x7f040006
+int id settings_track 0x7f040007
 int id terrain 0x7f040003
 int layout activity_main 0x7f030000
 int menu activity_main 0x7f070000

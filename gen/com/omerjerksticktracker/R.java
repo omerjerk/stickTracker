@@ -138,6 +138,7 @@ containing a value of this type.
         public static final int normal=0x7f040001;
         public static final int satellite=0x7f040002;
         public static final int settings_about=0x7f040006;
+        public static final int settings_track=0x7f040007;
         public static final int terrain=0x7f040003;
     }
     public static final class layout {

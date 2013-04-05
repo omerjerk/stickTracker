@@ -3,10 +3,10 @@ package com.omerjerksticktracker;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+
+import com.omerjerksticktracker.utils;
 
 public class About extends DialogFragment {
     @Override
@@ -18,8 +18,8 @@ public class About extends DialogFragment {
                .setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        // FIRE ZE MISSILES!
-                	   Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/OmerJerk"));
-                	   startActivity(browserIntent);
+                	   utils mail = new utils();
+                	   mail.sendMail();
                    }
                })
                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -30,4 +30,5 @@ public class About extends DialogFragment {
         // Create the AlertDialog object and return it
         return builder.create();
     }
+    
 }
