@@ -15,7 +15,7 @@ public class About extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("We are making a stick for blind people. And this app will give the realtime tracking of the person holding the stick.")
                .setTitle("Stick for Blind People")
-               .setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
+               .setPositiveButton("omerjerk@gmail.com", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        // FIRE ZE MISSILES!
                 	   utils mail = new utils();

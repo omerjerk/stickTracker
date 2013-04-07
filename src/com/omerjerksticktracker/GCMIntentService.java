@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -17,6 +16,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
@@ -44,7 +46,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 	        // Execute HTTP Post Request
-	        HttpResponse response = httpclient.execute(httppost);
+	        httpclient.execute(httppost);
 	        
 	    } catch (ClientProtocolException e) {
 	        // TODO Auto-generated catch block
@@ -99,10 +101,17 @@ public class GCMIntentService extends GCMBaseIntentService {
 	        		int mId=1;
 	        		// mId allows you to update the notification later on.
 	        		mNotificationManager.notify(mId, mBuilder.build());
-	 }         
+	        		
+	         }         
 	     });
 		
-		
+	    try {
+	        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+	        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+	        r.play();
+	    } catch (Exception e) {
+	    	Toast.makeText(context, "Shit happened", Toast.LENGTH_LONG).show();
+	    }
 	}
 	
 	@Override
