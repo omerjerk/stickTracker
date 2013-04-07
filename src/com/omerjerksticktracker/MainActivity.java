@@ -107,10 +107,10 @@ public class MainActivity extends FragmentActivity {
     }
     
     private void track(){
-    	final LatLng test = new LatLng (10.21, 10);
+    	final LatLng test = new LatLng (28.7486035, 77.1199197);
     	mMap.addMarker(new MarkerOptions().position(test)
     			.title("Stick")
-    			.snippet("Stick is being developed in Casray :)"));
+    			.snippet("Stick is being developed in CASRAE :)"));
     	CameraPosition cameraPosition = new CameraPosition.Builder()
         .target(test)      // Sets the center of the map to Mountain View
         .zoom(10)                   // Sets the zoom
