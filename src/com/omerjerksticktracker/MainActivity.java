@@ -19,9 +19,12 @@ package com.omerjerksticktracker;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -46,6 +49,15 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpMap();
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+        final String regId = GCMRegistrar.getRegistrationId(this);
+        if (regId.equals("")) {
+          GCMRegistrar.register(this, "796902621769");
+        } else {
+        	Toast.makeText(getApplicationContext(), "Already Registeres", Toast.LENGTH_LONG);
+          Log.v("message", "Already registered"); 
+        }
     }
     
     @Override
@@ -101,7 +113,7 @@ public class MainActivity extends FragmentActivity {
     			.snippet("Stick is being developed in Casray :)"));
     	CameraPosition cameraPosition = new CameraPosition.Builder()
         .target(test)      // Sets the center of the map to Mountain View
-        .zoom(15)                   // Sets the zoom
+        .zoom(10)                   // Sets the zoom
         .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         

@@ -9,6 +9,7 @@ package com.omerjerksticktracker;
 
 public final class Manifest {
     public static final class permission {
+        public static final String C2D_MESSAGE="com.omerjerksticktracker.permission.C2D_MESSAGE";
         public static final String MAPS_RECEIVE="com.omerjerksticktracker.permission.MAPS_RECEIVE";
     }
 }
