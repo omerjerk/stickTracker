@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity {
     			.snippet("Stick is being developed in CASRAE :)"));
     	CameraPosition cameraPosition = new CameraPosition.Builder()
         .target(test)      // Sets the center of the map to Mountain View
-        .zoom(10)                   // Sets the zoom
+        .zoom(15)                   // Sets the zoom
         .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         
