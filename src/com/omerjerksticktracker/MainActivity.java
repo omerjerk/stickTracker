@@ -16,13 +16,27 @@
 
 package com.omerjerksticktracker;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -55,7 +69,6 @@ public class MainActivity extends FragmentActivity {
         if (regId.equals("")) {
           GCMRegistrar.register(this, "796902621769");
         } else {
-        	Toast.makeText(getApplicationContext(), "Already Registeres", Toast.LENGTH_LONG);
           Log.v("message", "Already registered"); 
         }
     }
@@ -116,6 +129,80 @@ public class MainActivity extends FragmentActivity {
         .zoom(15)                   // Sets the zoom
         .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        
+        for(;;){
+    		new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                	updateLocation();
+                }
+            }, 5000);
+    	}
+    	
     }
+    
+    private void updateLocation(){
+    	
+    }
+    
+    public class showNewsFeed extends AsyncTask <String, Void, String> {
+		HttpClient httpclient = new DefaultHttpClient();
+		
+		 HttpPost httppost = new HttpPost("http://www.ludlowcastle.co.in/stick/location.php");
+		 String result;
+		 protected String doInBackground(String... voids ){
+			 try {
+		         HttpResponse response = httpclient.execute(httppost);
+		         HttpEntity entity = response.getEntity();
+		         InputStream is = entity.getContent();
+		         result = convertStreamToString(is);
+		         System.out.println("String response = " + result);
+		     } catch (Exception e){
+		         e.printStackTrace();
+		     }
+		     
+		     return result;
+		 }
+		protected void onProgressUpdate(Void...voids){
+			
+		}
+		
+		
+		protected void onPostExecute(String r){
+			super.onPostExecute(r);
+
+			ProgressBar loading;
+			try {
+            	JSONObject obj=new JSONObject(r);
+            	
+               
+              } catch (Exception e) {
+            	  e.printStackTrace();
+              } 
+		}
+			 
+			 
+		 
+	}
+	
+	private static String convertStreamToString(InputStream is) {
+
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	    StringBuilder sb = new StringBuilder();
+
+	    String line = null;
+	    try {
+	        while ((line = reader.readLine()) != null) {
+	            sb.append((line + "\n"));
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            is.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return sb.toString();
+	}
 }
