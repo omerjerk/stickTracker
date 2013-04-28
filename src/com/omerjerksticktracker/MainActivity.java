@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.omerjerksticktracker;
 
 import java.io.BufferedReader;
@@ -30,13 +14,12 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -120,35 +103,17 @@ public class MainActivity extends FragmentActivity {
     }
     
     private void track(){
-    	final LatLng test = new LatLng (28.7486035, 77.1199197);
-    	mMap.addMarker(new MarkerOptions().position(test)
-    			.title("Stick")
-    			.snippet("Stick is being developed in CASRAE :)"));
-    	CameraPosition cameraPosition = new CameraPosition.Builder()
-        .target(test)      // Sets the center of the map to Mountain View
-        .zoom(15)                   // Sets the zoom
-        .build();                   // Creates a CameraPosition from the builder
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        for(;;){
-    		new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                	updateLocation();
-                }
-            }, 5000);
-    	}
-    	
+    	new updateLocation().execute();
     }
     
-    private void updateLocation(){
-    	
-    }
-    
-    public class showNewsFeed extends AsyncTask <String, Void, String> {
+    public class updateLocation extends AsyncTask <String, Void, String> {
 		HttpClient httpclient = new DefaultHttpClient();
 		
-		 HttpPost httppost = new HttpPost("http://www.ludlowcastle.co.in/stick/location.php");
+		 HttpPost httppost = new HttpPost("http://www.ludlowcastle.co.in/stick/getLocation.php");
 		 String result;
+		 protected void onPreExecute (){
+			 Toast.makeText(getApplicationContext(), "Getting the location", Toast.LENGTH_LONG).show();
+		 }
 		 protected String doInBackground(String... voids ){
 			 try {
 		         HttpResponse response = httpclient.execute(httppost);
@@ -170,11 +135,20 @@ public class MainActivity extends FragmentActivity {
 		protected void onPostExecute(String r){
 			super.onPostExecute(r);
 
-			ProgressBar loading;
 			try {
             	JSONObject obj=new JSONObject(r);
-            	
-               
+            	float latitude = Float.parseFloat(obj.getString("latitude"));
+            	float longitude = Float.parseFloat(obj.getString("longitude"));
+            	LatLng test = new LatLng (latitude, longitude);
+            	mMap.addMarker(new MarkerOptions().position(test)
+            			.title("Stick")
+            			.snippet("Stick is being developed in CASRAE :)"));
+            	CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(test)      // Sets the center of the map to Mountain View
+                .zoom(15)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            	               
               } catch (Exception e) {
             	  e.printStackTrace();
               } 
@@ -183,7 +157,7 @@ public class MainActivity extends FragmentActivity {
 			 
 		 
 	}
-	
+    	
 	private static String convertStreamToString(InputStream is) {
 
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
