@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity {
     public class updateLocation extends AsyncTask <String, Void, String> {
 		HttpClient httpclient = new DefaultHttpClient();
 		
-		 HttpPost httppost = new HttpPost("http://www.ludlowcastle.co.in/stick/getLocation.php");
+		 HttpPost httppost = new HttpPost("http://www.omerjerk.tk/stick/getLocation.php");
 		 String result;
 		 protected void onPreExecute (){
 			 Toast.makeText(getApplicationContext(), "Getting the location", Toast.LENGTH_LONG).show();
